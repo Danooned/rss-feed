@@ -95,9 +95,9 @@ class Core
     // Deze functie haalt alle rubrieken op zodat ze later met behulp van een foreach of for loop weergegeven kunnen worden of gecheckt kunnen worden. De opgehaalde data wordt omgezet naar de 'Rubric' class.
     function getRubric($id)
      {
-         $stm = $this->conn->prepare("SELECT * FROM rubrics WHERE id=:id LIMIT 1");
+        $stm = $this->conn->prepare("SELECT * FROM rubrics WHERE id=:id LIMIT 1");
         $stm->bindParam(":id",$id);
-        $stm->setFetchMode(PDO::FETCH_CLASS,"User");
+        $stm->setFetchMode(PDO::FETCH_CLASS,"Rubric");
         $stm->execute();
 
         if ($stm->rowCount() > 0) {
@@ -284,21 +284,16 @@ class Core
     function writeXml($rubricId) {
         date_default_timezone_set('Europe/Amsterdam');     
         
-        $stm = $this->conn->prepare("SELECT * FROM items WHERE startDate <= NOW() AND endDate >= NOW()");
+        $stm = $this->conn->prepare("SELECT * FROM items WHERE startDate <= NOW() AND endDate >= NOW() AND rubric=:rubric");
+        $stm->bindParam(":rubric", $rubricId);
         $stm->execute();
 
         if ($stm->rowCount() > 0) {
             $items = $stm->fetchAll(PDO::FETCH_CLASS,"Item");
         }
         
-        $stm = $this->conn->prepare("SELECT * FROM rubrics WHERE id=:id LIMIT 1");
-        $stm->bindParam(":id",$rubricId);
-        $stm->setFetchMode(PDO::FETCH_CLASS,"Rubric");
-        $stm->execute();
-
-        if ($stm->rowCount() > 0) {
-            $rubric = $stm->fetch();
-        }
+        
+        $rubric = $this->getRubric($rubricId);
         
         $data = parse_ini_file(dirname(__DIR__) . '/config.ini');
         $uploadUrl = $data['url'];
@@ -347,6 +342,8 @@ class Core
                     $enclosure->setAttribute('length', '0');
                     $enclosure->setAttribute('type', 'image/jpeg');
                 }
+                
+                $this->setItemActive($items[$i]->getId());
             }
         }
         

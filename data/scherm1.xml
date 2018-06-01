@@ -5,9 +5,9 @@
     <link>http://localhost/xml</link>
     <description>RRS</description>
     <item>
-      <title>asasd</title>
+      <title>werwer</title>
       <link>http://localhost/xml/uploads/nothing.png</link>
-      <description>asdasd</description>
+      <description>werwer</description>
       <enclosure url="http://localhost/xml/uploads/nothing.png" length="0" type="image/jpeg"/>
     </item>
   </channel>

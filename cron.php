@@ -20,7 +20,6 @@
     echo date("Y-m-d H:i:s").'<br>';
     if ($activeItems) {
         foreach ($activeItems as $item) {
-            $core->setItemActive($item->getId());
             if (!in_array($item->getRubric(), $rubrics))
             {
                 $rubrics[] = $item->getRubric(); 
