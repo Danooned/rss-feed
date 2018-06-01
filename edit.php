@@ -193,7 +193,7 @@
                     </label>
                     <input style="padding: 5px 9px;" type="text" class="form-control" readonly>
                 </div>
-			    <label for="display">Display</label>
+			    <label for="display">Rubriek</label>
                 <select class="form-control" name="rubric" id="display">
                 <?php for ($i = 0; $i < count($rubrics); $i++) { 
                     $selected = ($rubrics[$i]->getId() === $item->getRubric() ? 'selected' : ''); ?>
